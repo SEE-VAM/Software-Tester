@@ -193,9 +193,20 @@ function setRunningState(isRunning, finalStatus = "idle") {
   if (isRunning) {
     liveBadge.className = "status-badge running";
     testStatusText.innerText = "LIVE: Testing in Progress";
-    idleScreenMsg.style.display = "none";
-    liveIframe.style.display = "block";
-    liveIframe.src = targetUrlInput.value.trim();
+    const targetUrl = targetUrlInput.value.trim();
+    if (targetUrl.startsWith("file://") || targetUrl.includes(":\\") || targetUrl.includes(":/")) {
+      liveIframe.style.display = "none";
+      idleScreenMsg.style.display = "block";
+      idleScreenMsg.innerHTML = `
+        <div style="font-size: 40px; margin-bottom: 8px;">📂</div>
+        <h3 style="color:#f1f5f9; font-size:15px; margin-bottom:4px;">Local Offline File Testing</h3>
+        <p style="font-size:12px; color:#94a3b8;">Testing local file directly. Check <strong>"Visible Browser"</strong> to watch the automation live in Chromium!</p>
+      `;
+    } else {
+      idleScreenMsg.style.display = "none";
+      liveIframe.style.display = "block";
+      liveIframe.src = targetUrl;
+    }
   } else {
     liveBadge.className = "status-badge idle";
     testStatusText.innerText = finalStatus === "Completed" ? "Completed (Ready)" : "Idle";

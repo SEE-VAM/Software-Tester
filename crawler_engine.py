@@ -87,7 +87,12 @@ class AutoCrawlerEngine:
         async with async_playwright() as p:
             browser = await p.chromium.launch(
                 headless=self.headless,
-                args=["--start-maximized", "--disable-web-security"]
+                args=[
+                    "--start-maximized",
+                    "--disable-web-security",
+                    "--allow-file-access-from-files",
+                    "--allow-file-access"
+                ]
             )
             context = await browser.new_context(viewport={"width": 1366, "height": 850})
             page = await context.new_page()
@@ -110,19 +115,25 @@ class AutoCrawlerEngine:
 
             # Listen for failed HTTP requests
             def on_response(resp):
-                if resp.status >= 400:
+                if resp.url.startswith("http") and resp.status >= 400:
                     self.log(f"HTTP Network Failure: {resp.url} returned status {resp.status}", "error")
                     self.emit_bug(f"Network Request Failed ({resp.status})", resp.url, f"HTTP {resp.status}")
 
             page.on("response", on_response)
 
-            # Step 1: Open Target URL
-            self.log(f"Navigating to {self.target_url}...", "info")
+            # Step 1: Normalize & Open Target URL / File Path
+            target = self.target_url.strip().strip('"').strip("'")
+            if not target.startswith("http://") and not target.startswith("https://") and not target.startswith("file://"):
+                local_p = Path(target).resolve()
+                if local_p.exists():
+                    target = local_p.as_uri()
+
+            self.log(f"Navigating to {target}...", "info")
             try:
-                await page.goto(self.target_url, wait_until="domcontentloaded", timeout=15000)
+                await page.goto(target, wait_until="domcontentloaded", timeout=15000)
                 await asyncio.sleep(1.5)
             except Exception as e:
-                self.log(f"Could not load {self.target_url}: {e}", "error")
+                self.log(f"Could not load {target}: {e}", "error")
                 await browser.close()
                 self.is_running = False
                 return self.results
