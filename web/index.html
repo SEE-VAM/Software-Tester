@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoQA Robot - Automated POS Testing Engine</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="header">
+    <div class="brand">
+      <div class="logo-badge">🤖</div>
+      <div class="title-group">
+        <h1>AutoQA Robot - Automated POS Testing Engine</h1>
+        <p>Enterprise UI Crawler & Automated Quality Assurance Suite</p>
+      </div>
+    </div>
+
+    <!-- URL Input and Controls -->
+    <div class="target-bar">
+      <label for="target-url">Target URL:</label>
+      <input type="text" id="target-url" value="http://localhost:8080" placeholder="http://localhost:8080" />
+      
+      <label class="headless-toggle">
+        <input type="checkbox" id="headless-mode"> Visible Browser
+      </label>
+    </div>
+
+    <div class="status-badge idle" id="live-badge">
+      <span class="pulse-dot"></span>
+      <span id="test-status-text">Ready to Test</span>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-primary" id="btn-start" onclick="startTestSuite()">🚀 Start Auto-Test</button>
+      <button class="btn btn-warning" id="btn-pause" onclick="pauseTestSuite()" disabled>⏸ Pause</button>
+      <button class="btn btn-danger" id="btn-stop" onclick="stopTestSuite()" disabled>🛑 Stop</button>
+      <button class="btn btn-outline" onclick="exportReport()">📄 Export Report</button>
+    </div>
+  </header>
+
+  <!-- Main Body Grid -->
+  <div class="app-body">
+
+    <!-- Left Column: Discovered Screens -->
+    <aside class="sidebar">
+      <div class="sidebar-header" style="background: rgba(59, 130, 246, 0.1); border-bottom: 1px solid #1e40af;">
+        <span>🎯 Business Flow Tests</span>
+      </div>
+      <div class="scenarios-container" id="scenarios-container" style="padding: 10px; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid #334155;">
+        <div class="module-item" id="sc-billing">
+          <span>🛒 POS Bill & Invoice</span>
+          <span class="tag tag-pending" id="tag-billing">QUEUED</span>
+        </div>
+        <div class="module-item" id="sc-product">
+          <span>📦 Product Entry</span>
+          <span class="tag tag-pending" id="tag-product">QUEUED</span>
+        </div>
+        <div class="module-item" id="sc-customer">
+          <span>👥 Customer Entry</span>
+          <span class="tag tag-pending" id="tag-customer">QUEUED</span>
+        </div>
+        <div class="module-item" id="sc-hold">
+          <span>⏸️ Hold & Recall</span>
+          <span class="tag tag-pending" id="tag-hold">QUEUED</span>
+        </div>
+      </div>
+
+      <div class="sidebar-header">
+        <span>Screens & Modules</span>
+        <span class="badge" id="screens-count">0</span>
+      </div>
+      <ul class="module-list" id="module-list">
+        <li class="module-placeholder">Click "Start Auto-Test" to begin scanning elements and screens...</li>
+      </ul>
+    </aside>
+
+    <!-- Center Column: Viewport & Terminal -->
+    <main class="center-stage">
+      
+      <!-- Live Execution Viewport -->
+      <div class="viewport-card">
+        <div class="viewport-topbar">
+          <span id="current-screen-label">Target Viewport: Idle</span>
+          <span id="viewport-meta">Latency: --ms | Ready</span>
+        </div>
+        <div class="viewport-screen" id="viewport-screen">
+          <div class="idle-screen-msg" id="idle-screen-msg">
+            <div style="font-size: 48px; margin-bottom: 12px;">🖥️</div>
+            <h3>Autonomous Testing Engine Ready</h3>
+            <p>Ensure your POS (e.g. BrainShop on port 8080) is running, then click <strong>"Start Auto-Test"</strong>.</p>
+          </div>
+          <iframe id="live-iframe" style="display:none; width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+      </div>
+
+      <!-- Action Log Terminal -->
+      <div class="log-card">
+        <div class="log-title">
+          <span>AUTOMATED ACTION CONSOLE</span>
+          <span style="color: #34d399; font-size: 11px;">● Live Streaming Events</span>
+        </div>
+        <div class="log-terminal" id="log-box">
+          <div class="log-item"><span class="log-time">[Ready]</span> <span>AutoQA testing engine initialized. Ready to execute crawler.</span></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right Column: Metrics & Bug Inspector -->
+    <aside class="right-bar">
+      
+      <div class="stat-card">
+        <div class="stat-val" id="stat-total">0</div>
+        <div class="stat-lbl">Total Elements Scanned & Tested</div>
+      </div>
+
+      <div class="stat-card stat-passed">
+        <div class="stat-val" id="stat-passed">0</div>
+        <div class="stat-lbl">Passed Elements (Verified OK)</div>
+      </div>
+
+      <div class="stat-card stat-broken">
+        <div class="stat-val" id="stat-failed">0</div>
+        <div class="stat-lbl">Issues / Broken Buttons Found</div>
+      </div>
+
+      <!-- Bug Card & Inspector -->
+      <div class="sidebar-header" style="padding-left: 0; padding-right: 0;">
+        <span>Bug Inspector</span>
+        <span class="badge" id="bug-badge" style="background:#ef4444;color:white;">0</span>
+      </div>
+
+      <div class="bug-list" id="bug-list">
+        <p class="no-bugs-msg" id="no-bugs-msg">No issues found so far. All tested elements passing.</p>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

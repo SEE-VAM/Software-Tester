@@ -1,0 +1,434 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+  background: #0b1120;
+  color: #f8fafc;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Top Navbar */
+.header {
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-badge {
+  background: #3b82f6;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.title-group h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.title-group p {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Target URL bar */
+.target-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f172a;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+}
+
+.target-bar label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.target-bar input[type="text"] {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  width: 220px;
+}
+
+.headless-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #cbd5e1;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+/* Status Badge */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.idle {
+  background: #334155;
+  color: #94a3b8;
+}
+
+.status-badge.running {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #34d399;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+/* Header Action Buttons */
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary { background: #3b82f6; color: white; }
+.btn-primary:hover:not(:disabled) { background: #2563eb; }
+.btn-warning { background: #f59e0b; color: white; }
+.btn-warning:hover:not(:disabled) { background: #d97706; }
+.btn-danger { background: #ef4444; color: white; }
+.btn-danger:hover:not(:disabled) { background: #dc2626; }
+.btn-outline { background: #334155; color: #e2e8f0; border: 1px solid #475569; }
+.btn-outline:hover:not(:disabled) { background: #475569; }
+
+/* Main App Layout */
+.app-body {
+  display: grid;
+  grid-template-columns: 260px 1fr 320px;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left Sidebar */
+.sidebar {
+  background: #1e293b;
+  border-right: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid #334155;
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  background: #334155;
+  color: #cbd5e1;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.module-list {
+  list-style: none;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.module-placeholder {
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+  padding: 20px 10px;
+  line-height: 1.6;
+}
+
+.module-item {
+  background: #0f172a;
+  border: 1px solid #334155;
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.module-item.active {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+.tag-passed { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid #059669; }
+.tag-progress { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid #d97706; }
+.tag-failed { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #dc2626; }
+
+/* Center Stage */
+.center-stage {
+  display: flex;
+  flex-direction: column;
+  background: #0b1120;
+  padding: 16px;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.viewport-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 380px;
+  position: relative;
+}
+
+.viewport-topbar {
+  background: #0f172a;
+  padding: 8px 14px;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.viewport-screen {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #020617;
+  position: relative;
+  overflow: hidden;
+}
+
+.idle-screen-msg {
+  text-align: center;
+  color: #64748b;
+  max-width: 360px;
+}
+
+.idle-screen-msg h3 {
+  color: #f1f5f9;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.idle-screen-msg p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Action Log Terminal */
+.log-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 160px;
+}
+
+.log-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+}
+
+.log-terminal {
+  background: #020617;
+  border-radius: 6px;
+  padding: 10px;
+  flex: 1;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  color: #38bdf8;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 120px;
+  border: 1px solid #1e293b;
+}
+
+.log-item { display: flex; gap: 8px; }
+.log-time { color: #64748b; }
+.log-success { color: #34d399; font-weight: 600; }
+.log-error { color: #f87171; font-weight: bold; }
+
+/* Right Sidebar: Metrics & Bugs */
+.right-bar {
+  background: #1e293b;
+  border-left: 1px solid #334155;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.stat-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.stat-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.stat-lbl {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.stat-passed .stat-val { color: #34d399; }
+.stat-broken .stat-val { color: #f87171; }
+
+.bug-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.no-bugs-msg {
+  font-size: 11px;
+  color: #64748b;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.bug-card {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.bug-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f87171;
+  margin-bottom: 4px;
+}
+
+.bug-selector {
+  font-size: 10px;
+  color: #cbd5e1;
+  font-family: monospace;
+  margin-bottom: 6px;
+  word-break: break-all;
+}
+
+.bug-error-text {
+  font-size: 10px;
+  color: #fca5a5;
+  background: #020617;
+  padding: 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  max-height: 70px;
+  overflow-y: auto;
+}
+
+.bug-thumb {
+  max-width: 100%;
+  border-radius: 4px;
+  margin-top: 6px;
+  border: 1px solid #ef4444;
+  cursor: pointer;
+}
